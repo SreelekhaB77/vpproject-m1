@@ -1,3 +1,4 @@
+
 pipeline {
     
 	agent any
@@ -17,6 +18,8 @@ pipeline {
 	CENTRAL_REPO='vpproject-mcentral'
 	NEXUSPORT='8081'
         NEXUS_LOGIN='nexuscredentials'
+	SONARSERVER='sonarscanner'
+	SONARSCANNER='sonarscanner'
         
     }
 	
@@ -27,8 +30,7 @@ pipeline {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
             
-        
-	    post{
+         post{
             success {
                 echo "Now Archiving....!"
 		archiveArtifacts artifacts:'**/*.war'
@@ -47,6 +49,24 @@ pipeline {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             	}
 	    }
+	    stage('Sonar Analysis') {
+          
+		  environment {
+             scannerHome = tool "${SONARSCANNER}"
+          }
+
+          steps {
+            withSonarQubeEnv("${SONARSCANNER}") {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                   -Dsonar.projectName=vprofile-repo \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+            }
+	  }
     
     
     
@@ -62,6 +82,8 @@ pipeline {
 
 }
 
+	    
+
 	
 
 	
@@ -71,6 +93,7 @@ pipeline {
 
         
 
+    
 
 
 
