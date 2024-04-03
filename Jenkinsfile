@@ -6,7 +6,7 @@ pipeline {
         maven "maven"
 	jdk "java11"
     }
-//sree//	
+	
     environment {
         SNAP_REPO='vpproject-snapshot'
 	NEXUS_USER = "admin"
