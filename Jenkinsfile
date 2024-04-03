@@ -4,30 +4,29 @@ pipeline {
 /*	
 	tools {
         maven "maven3"
+	jdk "java11"
     }
 */	
     environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "44.203.197.100:8081"
-        NEXUS_REPOSITORY = "vpproject-release"
-	NEXUS_REPOGRP_ID    = "vprofile-group"
-        NEXUS_CREDENTIAL_ID = "credentials"
-        ARTVERSION = "${env.BUILD_ID}"
+        SNAP_REPO='vpproject-snapshot'
+	NEXUS_USER = "admin"
+        NEXUS_PASS = "sree"
+        NEXUSIP= "172.31.88.187"
+        RELEASE_REPO = "vpproject-release"
+	NEXUS_GRP_REPO= "vpproject-group"
+	CENTRAL_REPO='vpproject-mcentral'
+	NEXUSPORT='8081'
+        NEXUS_LOGIN='nexuscredentials'
+        
     }
 	
     stages{
         
         stage('BUILD'){
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn -s settings.xml -DskipTests install'
             }
-            post {
-                success {
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
+            
         }
 
 	stage('UNIT TEST'){
