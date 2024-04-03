@@ -1,4 +1,4 @@
-pipeline {
+ipipeline {
     
 	agent any
 /*	
@@ -9,10 +9,10 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
-        NEXUS_REPOSITORY = "vprofile-release"
-	NEXUS_REPOGRP_ID    = "vprofile-grp-repo"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
+        NEXUS_URL = "44.203.197.100:8081"
+        NEXUS_REPOSITORY = "vpproject-release"
+	NEXUS_REPOGRP_ID    = "vprofile-group"
+        NEXUS_CREDENTIAL_ID = "credentials"
         ARTVERSION = "${env.BUILD_ID}"
     }
 	
