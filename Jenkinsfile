@@ -110,6 +110,18 @@ pipeline {
     }
             
 
+	 post {
+        success {
+            emailext subject: "SUCCESS: Job ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                      body: "The job ${env.JOB_NAME} succeeded. Build URL: ${env.BUILD_URL}",
+                      to: 'sreelekha789sl@gmail.com'
+        }
+        failure {
+            emailext subject: "FAILURE: Job ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                      body: "The job ${env.JOB_NAME} failed. Build URL: ${env.BUILD_URL}",
+                      to: 'sreelekha789sl@gmail.com'
+        }
+    }
 }
 
 	    
